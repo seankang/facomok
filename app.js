@@ -1,9 +1,55 @@
-var http = require("http");
+/**
+ * Module dependencies.
+ */
 
-var port = process.env.PORT || 3000;
+var express = require('express')
+    ,stylus = require('stylus');
+var app = module.exports = express.createServer();
+var port = process.env.PORT||80;
 
-http.createServer(function(request, response) {
-  response.writeHead(200, {"Content-Type": "text/html"});
-  response.write("facomok");
-  response.end();
-}).listen(port);
+// Configuration
+
+app.configure(function(){
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'jade');
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(stylus.middleware({ src: __dirname + '/public' }));
+    app.use(app.router);
+    app.use(express.static(__dirname + '/public'));
+});
+
+app.configure('development', function(){
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+});
+
+app.configure('production', function(){
+    app.use(express.errorHandler()); 
+});
+
+// Routes
+
+app.get('/', function(req, res){
+    res.render('index', {
+        title: 'Home'
+    });
+});
+
+app.get('/about', function(req, res){
+    res.render('about', {
+        title: 'About'
+    });
+});
+
+app.get('/contact', function(req, res){
+    res.render('contact', {
+        title: 'Contact'
+    });
+});
+
+// Only listen on $ node app.js
+
+if (!module.parent) {
+    app.listen(port);
+    console.log("Express server listening on port %d", app.address().port);
+}
