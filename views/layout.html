@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>${title}</title>
+    <script src="http://cdn.socket.io/stable/socket.io.js"></script>
+    <script language="javascript" src="/js/omok.js"></script>
+    <script language="javascript">
+        var socket = new io.Socket('${host}',{
+            port: ${port}
+        });
+        socket.connect(); 
+        
+        socket.on('connect',function() {
+            alert('Client has connected to the server!');
+        });
+        
+        socket.on('message',function(data) {
+            alert('Received a message from the server!',data);
+        });
+        
+        socket.on('disconnect',function() {
+            alert('The client has disconnected!');
+        });
+        
+        socket.on('error', function(msg) {
+            alert('error' + msg);
+        }
+        
+        function sendMessageToServer(message) {
+            socket.send(message);
+        }
+    </script>    
+</head>
+<body>
+    {{html body}}
+</body>
+</html> 
