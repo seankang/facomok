@@ -1,4 +1,9 @@
 {
-  "name": "facomok",
-  "version": "0.0.1"
+    "name": "facomok",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "2.2.0",
+        "socket.io": "recent",
+        "jqtpl": "recent"
+    }
 }
