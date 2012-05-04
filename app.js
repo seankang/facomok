@@ -41,6 +41,7 @@ app.get('/', function(req, res){
     });
 });
 
+console.log('run');
 app.listen(port);
 
 /*
